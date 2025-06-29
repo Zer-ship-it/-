@@ -504,3 +504,83 @@ host hq-srv
 host 192.168.1.2
 host wiki
 host ya.ru
+
+Как запустить днс на роутере 1
+
+en
+
+conf t
+
+ip name-server 192.168.1.2
+
+ip domain-name au-team.irpo
+
+ip domain-lookup
+
+no ip name-server 77.88.8.8
+
+do wr
+
+do ping hq-srv
+
+Как запустить днс на роутере 2
+
+en
+
+conf t
+
+ip name-server 192.168.1.2
+
+ip domain-name au-team.irpo
+
+ip domain-lookup
+
+no ip name-server 77.88.8.8
+
+do wr
+
+do ping hq-srv
+
+Как запустить dhcp на роутере 1
+
+en
+
+conf t
+
+ip pool hq 192.168.1.67-192.168.1.78
+
+dhcp-server 1
+
+  static ip 192.168.1.66
+  
+    client-id mac XX:XX:XX:XX:XX:XX (MAC адрес HQ-Cli)
+    
+    mask 255.255.255.240
+    
+    gateway 192.168.1.65
+    
+    dns 192.168.1.2
+    
+    domain_search au-team.irpo
+    
+    ex
+    
+  pool hq 1
+  
+  mask 255.255.255.240
+  
+  gateway 192.168.165
+  
+  dns 192.168.1.2
+
+  domain_search au-team.irpo
+  
+do wr
+
+int lan
+
+int 200
+
+  dhcp-server 1
+  
+  do wr
